@@ -17,6 +17,13 @@ const List = () => {
             setTask('')
         }
     }
+
+    const [isHovered, setIsHovered] = useState(false)
+
+    function eraseTask(index){
+        setTodos(todos.splice(index,1))
+    }
+
     
     return (
         <div className="w-25 mx-auto d-flex flex-column justify-content-center text-start">
@@ -31,7 +38,18 @@ const List = () => {
             />
             <ul className="list-group">
                 {todos.map((todo, index) =>{
-                    return <li className="list-group-item p-3" key={index}>{todo}</li>
+                    return (
+                    <li 
+                    className="list-group-item d-flex justify-content-between align-items-center p-3" 
+                    key={index}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}>
+                        {todo}
+                        <span style={{display: isHovered ? "inline" : "none"}} onClick={() => eraseTask(index)}>
+                            <i className="bi bi-x"></i>
+                        </span>
+                    </li>
+                    )
                 })}
                 <li className="list-group-item p-1"><span className="fw-light fst-italic">{todos.length} items left</span></li>
             </ul>
